@@ -21,6 +21,6 @@ This is orginal image:
 
 ![original image](image.jpg)
 
-This is the image with hidden message "Message!":
+This is the image with hidden message "This is message":
 
 ![Image with message](r.png)
