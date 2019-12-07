@@ -3,7 +3,7 @@
 This is simple steganography tool that hiddes messages in JPG and PNG immages.
 
 ## usage
-`python3 -e(to encode)/-d(to decode) input_file`
+`python3 hide.py -e(to encode)/-d(to decode) input_file`
 
 hide.py uses `pillow` and `bitarray` modules.
 
