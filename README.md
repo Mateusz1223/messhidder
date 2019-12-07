@@ -2,15 +2,19 @@
 
 This is simple steganography tool that hiddes messages in JPG and PNG immages.
 
-### usage
+## usage
 `python3 -e(to encode)/-d(to decode) input_file`
 
-## encryption
+hide.py uses `pillow` and `bitarray` modules.
+To download pillow type `pip install Pillow`
+To download bitarray type `pip install bitarray`
+
+### encryption
 
 `python3 hide.py -e image.jpg`
 It asks you for a message to hide and creates `r.png` file which contains hidden message.
 
-## decryption
+### decryption
 
 `python3 hide.py -d r.png`
 to encrypt a message from image.
@@ -19,8 +23,8 @@ ________________________________________________________________________________
 
 This is orginal image:
 
-![original image](image.jpg)
+<img src="image.jpg" width="600">
 
 This is the image with hidden message "This is message":
 
-![Image with message](r.png)
+<img src="r.png" width="600">
