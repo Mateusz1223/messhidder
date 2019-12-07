@@ -106,14 +106,14 @@ def main():
 		operation = sys.argv[1]
 	except:
 		print("Incorrect input!")
-		print("Usage: -e(to encode)/-d(to decode) input_file")
+		print("Usage: python3 hide.py -e(to encode)/-d(to decode) input_file")
 		exit()
 
 	try:
 		inFile = sys.argv[2]
 	except:
 		print("Incorrect input!")
-		print("Usage: -e(to encode)/-d(to decode) input_file")
+		print("Usage: python3 hide.py -e(to encode)/-d(to decode) input_file")
 		exit()
 
 	if operation == '-e':
@@ -122,7 +122,7 @@ def main():
 		decode(inFile)
 	else:
 		print("Incorrect input!")
-		print("Usage: -e(to encode)/-d(to decode) input_file")
+		print("Usage: python3 hide.py -e(to encode)/-d(to decode) input_file")
 		exit()
 
 
