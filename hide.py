@@ -3,12 +3,34 @@ from bitarray import bitarray
 import struct
 import sys
 
+class textColors:
+	ERROR = '\033[1;31;48m'
+	SUCCES = '\033[1;32;48m'
+
+	END = '\033[1;37;48m'
+
 
 def encode(inFile):
+	try:
+		inImage = Image.open(inFile)
+	except:
+		print(textColors.ERROR+"No such file: "+inFile+'!'+textColors.END)
+		exit()
+
+	maxMessSize = inImage.size[0]*inImage.size[1]*3/8
+	if maxMessSize > 65535:
+		maxMessSize = 65535
+
+	print("Max character capacity of "+inFile+" image: " + str(maxMessSize))
+
 	m = input("Enter message to hide: ")
 
-	if len(m) > 8190:
-		print("Message to long!")
+	if len(m) > 65535:
+		print(textColors.ERROR+"Message is to long!"+textColors.END)
+		exit()
+
+	if maxMessSize < len(m):
+		print(textColors.ERROR+"Message is to long!"+textColors.END)
 		exit()
 
 	mb = bitarray()
@@ -16,8 +38,6 @@ def encode(inFile):
 	mbSize = mb.length()
 
 	c = 0 # counter
-
-	inImage = Image.open(inFile)
 
 	oldPixels = inImage.load()
 
@@ -55,20 +75,45 @@ def encode(inFile):
 			pixels[i,j] = (r,g,b)
 
 	newImage.save("r.png")
-	size = struct.pack('H', mbSize).decode("utf-8")
-	f = open("r.png", "a+")
+
+	try:
+		size = struct.pack('H', len(m)).decode("utf-8")
+	except:
+		print(textColors.ERROR+"Something went wrong! r.png does not contain hidden message"+textColors.END)
+		exit()
+
+	try:
+		f = open("r.png", "a+")
+	except:
+		print(textColors.ERROR+"Something went wrong! r.png does not contain hidden message"+textColors.END)
+		exit()
+
 	f.write(size)
 	f.close()
 
+	print(textColors.SUCCES+"Succes! Message encrypted in file r.png"+textColors.END)
+
+
 def decode(inFile):
-	f = open(inFile, "rb")
+	try:
+		f = open(inFile, "rb")
+	except:
+		print(textColors.ERROR+"No such file: "+inFile+'!'+textColors.END)
+		exit()
+
 	fstr = f.read()
 	strLen = fstr[-2:]
 	length = struct.unpack('H', strLen)
 	length = int(length[0])
 	f.close()
+	length = length*8
 
-	inImage = Image.open(inFile)
+	try:
+		inImage = Image.open(inFile)
+	except:
+		print(textColors.ERROR+"No such file: "+inFile+'!'+textColors.END)
+		exit()
+
 	pixels = inImage.load()
 
 	bc = 0 # bit counter
@@ -97,22 +142,22 @@ def decode(inFile):
 				break
 
 	decodedMessage = mb.tostring()
-	print("Succes!")
-	print(decodedMessage)
+	print(textColors.SUCCES+"Succes! Decoded message:")
+	print(decodedMessage+textColors.END)
 
 
 def main():
 	try:
 		operation = sys.argv[1]
 	except:
-		print("Incorrect input!")
+		print(textColors.ERROR+"Incorrect input!"+textColors.END)
 		print("Usage: python3 hide.py -e(to encode)/-d(to decode) input_file")
 		exit()
 
 	try:
 		inFile = sys.argv[2]
 	except:
-		print("Incorrect input!")
+		print(textColors.ERROR+"Incorrect input!"+textColors.END)
 		print("Usage: python3 hide.py -e(to encode)/-d(to decode) input_file")
 		exit()
 
@@ -121,7 +166,7 @@ def main():
 	elif operation == '-d':
 		decode(inFile)
 	else:
-		print("Incorrect input!")
+		print(textColors.ERROR+"Incorrect input!"+textColors.END)
 		print("Usage: python3 hide.py -e(to encode)/-d(to decode) input_file")
 		exit()
 

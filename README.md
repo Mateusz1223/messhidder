@@ -29,6 +29,6 @@ This is original image:
 
 <img src="image.jpg" width="400">
 
-This is the image with hidden message "This is message":
+This is the image with hidden message "This is a secret message":
 
 <img src="r.png" width="400">
